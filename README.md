@@ -1,4 +1,4 @@
-# Rails improvements
+# 🛤 Rails improvements
 
 Put files in this repo if they are generally useful across multiple Rails applications.
 

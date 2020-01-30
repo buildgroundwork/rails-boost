@@ -12,8 +12,10 @@
 module RailsImprovements
   module ActiveRecord
     module NamedParameters
-      def initialize(**named)
-        named.empty? ? super : super(named)
+      def initialize(*args, **kwargs)
+        raise ArgumentError unless args.empty? || kwargs.empty?
+
+        kwargs.empty? ? super(*args) : super(kwargs)
       end
     end
   end

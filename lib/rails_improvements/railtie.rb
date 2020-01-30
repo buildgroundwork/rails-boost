@@ -15,6 +15,23 @@ module RailsImprovements
         prepend RailsImprovements::ActiveRecord::NamedParameters
       end
     end
+
+    initializer 'rails_improvements.active_record.active_storage_keys', after: 'active_record' do
+      require 'rails_improvements/active_record/active_storage_keys'
+      ::ActiveRecord::Base.singleton_class.instance_eval do
+        prepend RailsImprovements::ActiveRecord::ActiveStorageKeys
+      end
+    end
+
+    initializer 'rails_improvements.active_storage.blob.sensible_key' do
+      require 'rails_improvements/active_storage/blob/sensible_key'
+
+      ActiveSupport.on_load(:active_storage_blob) do
+        ::ActiveStorage::Blob.instance_eval do
+          prepend RailsImprovements::ActiveStorage::Blob::SensibleKey
+        end
+      end
+    end
   end
 end
 

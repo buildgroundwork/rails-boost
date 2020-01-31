@@ -32,6 +32,10 @@ module RailsImprovements
         end
       end
     end
+
+    rake_tasks do
+      load 'rails_improvements/tasks/db.rake'
+    end
   end
 end
 

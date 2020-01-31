@@ -2,6 +2,6 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in rails_improvements.gemspec
+# Specify your gem's dependencies in rails-improvements.gemspec
 gemspec
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RailsImprovements
+module Rails::Improvements
   module ActiveStorage
     module Blob
       module SensibleKey

@@ -33,6 +33,14 @@ module Rails::Improvements
       end
     end
 
+    initializer 'rails-improvements.active_support.hash_with_indifferent_access.opinionated_keys', after: 'active_support' do
+      require 'rails/improvements/active_support/hash_with_indifferent_access/opinionated_keys'
+
+      ::ActiveSupport::HashWithIndifferentAccess.instance_eval do
+        prepend Rails::Improvements::ActiveSupport::HashWithIndifferentAccess::OpinionatedKeys
+      end
+    end
+
     rake_tasks do
       load 'rails/improvements/tasks/db.rake'
     end

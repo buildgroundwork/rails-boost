@@ -1,5 +1,4 @@
-# 🛤 Rails improvements
+# 🛤 Rails Boost
 
-Put files in this repo if they are generally useful across multiple Rails applications.
+Improvements to various elements of Rails.
 
-TODO: Make this into a gem or something

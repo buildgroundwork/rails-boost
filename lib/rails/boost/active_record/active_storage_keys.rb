@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Rails::Improvements
+module Rails::Boost
   module ActiveRecord
     module ActiveStorageKeys
       def has_one_attached(name, key: nil, **remaining) # rubocop:disable Naming/PredicateName

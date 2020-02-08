@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'lib/rails/improvements/version'
+require_relative 'lib/rails/boost/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'rails-improvements'
-  spec.version       = Rails::Improvements::VERSION
+  spec.name          = 'rails-boost'
+  spec.version       = Rails::Boost::VERSION
   spec.authors       = ['Grant Hutchins', 'Adam Milligan']
   spec.email         = ['gems@nertzy.com', 'adam@buildgroundwork.com']
 
   spec.summary       = 'Improvements to Rails'
   spec.description   = 'Improvements to Rails'
-  spec.homepage      = 'https://github.com/buildgroundwork/rails-improvements'
+  spec.homepage      = 'https://github.com/buildgroundwork/rails-boost'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
 

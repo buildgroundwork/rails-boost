@@ -6,7 +6,7 @@
 # The change to Rails did solve a security hole, but unfortunately broke the
 # polymorphic interface in doing so.  This fix restores the interface without
 # affecting the security fix.
-module Rails::Improvements
+module Rails::Boost
   module ActionController
     module Parameters
       module HashPolymorphism

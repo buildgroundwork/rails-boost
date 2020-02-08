@@ -5,12 +5,13 @@
 # that Ruby has clearly chosen symbols as the preferred type of hash key, and
 # Ruby functionality such as named parameters are the ** operator require that
 # keys be symbols, HWIA should play nicely with the rest of the Ruby ecosystem.
-module Rails::Improvements
+module Rails::Boost
   module ActiveSupport
     module HashWithIndifferentAccess
       module OpinionatedKeys
         def transform_keys!
           return enum_for(:transform_keys!) { size } unless block_given?
+
           keys.each { |key| self[yield(key.to_s)] = delete(key) }
           self
         end

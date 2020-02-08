@@ -9,7 +9,7 @@
 #
 # In Ruby 2.7 implicit conversion from a hash to named parameters will
 # become a warning, so this will require an explicit double splat.
-module Rails::Improvements
+module Rails::Boost
   module ActiveRecord
     module NamedParameters
       def initialize(*args, **kwargs)

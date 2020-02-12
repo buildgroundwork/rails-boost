@@ -9,7 +9,6 @@ Gem::Specification.new do |spec|
   spec.email         = ['gems@nertzy.com', 'adam@buildgroundwork.com']
 
   spec.summary       = 'Improvements to Rails'
-  spec.description   = 'Improvements to Rails'
   spec.homepage      = 'https://github.com/buildgroundwork/rails-boost'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
@@ -27,11 +26,11 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ['lib']
 
-  spec.add_dependency('rails')
+  spec.add_dependency('rails', '~> 6.0')
 
-  spec.add_development_dependency('rubocop')
-  spec.add_development_dependency('rake')
-  spec.add_development_dependency('rspec')
-  spec.add_development_dependency('rspec-its')
+  spec.add_development_dependency('rubocop', '~> 0.79')
+  spec.add_development_dependency('rake', '~> 13.0')
+  spec.add_development_dependency('rspec', '~> 3.9')
+  spec.add_development_dependency('rspec-its', '~> 1.3')
 end
 

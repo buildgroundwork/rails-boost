@@ -1,25 +1,21 @@
 # frozen_string_literal: true
 
 # HashWithIndifferentAccess is, by its nature, indifferent to how you reference
-# keys, so there's no good reason to use strings vs. symbols as keys.  Given
-# that Ruby has clearly chosen symbols as the preferred type of hash key, and
-# Ruby functionality such as named parameters are the ** operator require that
-# keys be symbols, HWIA should play nicely with the rest of the Ruby ecosystem.
+# keys.  However, Ruby has clearly chosen symbols as the preferred type of hash
+# key, and Ruby functionality such as named parameters and the ** operator
+# require that keys be symbols.  HWIA should play nicely with the rest of the
+# Ruby ecosystem, so this will convert all keys to symbols when converting the
+# HWIA to a Hash.
 module Rails::Boost
   module ActiveSupport
     module HashWithIndifferentAccess
       module OpinionatedKeys
-        def transform_keys!
-          return enum_for(:transform_keys!) { size } unless block_given?
-
-          keys.each { |key| self[yield(key.to_s)] = delete(key) }
-          self
+        def to_hash
+          super.deep_symbolize_keys
         end
 
-        private
-
-        def convert_key(key)
-          key.to_sym
+        def deep_transform_keys
+          super(&Proc.new).with_indifferent_access
         end
       end
     end

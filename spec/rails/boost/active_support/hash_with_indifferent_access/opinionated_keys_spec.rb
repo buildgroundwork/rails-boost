@@ -24,7 +24,22 @@ RSpec.describe ActiveSupport::HashWithIndifferentAccess do
 
   describe "#transform_keys" do
     subject { hwia.transform_keys(&:titleize) }
-    its(:keys) { should == %i[A B C] }
+    its(:keys) { should == %w[A B C] }
+  end
+
+  describe "#transform_keys!" do
+    subject { hwia.transform_keys(&:titleize) }
+    its(:keys) { should == %w[A B C] }
+  end
+
+  describe "#deep_transform_keys" do
+    subject { hwia.deep_transform_keys(&:titleize) }
+    its([:C]) { should == { "X" => 1, "Y" => 2 } }
+  end
+
+  describe "#deep_transform_keys!" do
+    subject { hwia.deep_transform_keys!(&:titleize) }
+    its([:C]) { should == { "X" => 1, "Y" => 2 } }
   end
 end
 

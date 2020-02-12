@@ -158,6 +158,10 @@ Style/TrivialAccessors:
 #===============
 # Metrics
 #===============
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
 Metrics/ParameterLists:
   CountKeywordArgs: false
 

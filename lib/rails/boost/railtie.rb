@@ -9,6 +9,13 @@ module Rails::Boost
       end
     end
 
+    initializer 'rails-boost.action_controller.transform_request_keys' do
+      require 'rails/boost/action_controller/transform_request_keys'
+      ::ActionController::Base.instance_eval do
+        prepend Rails::Boost::ActionController::TransformRequestKeys
+      end
+    end
+
     initializer 'rails-boost.active_record.named_parameters', after: 'active_record' do
       require 'rails/boost/active_record/named_parameters'
       ::ActiveRecord::Base.instance_eval do

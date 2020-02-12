@@ -129,6 +129,10 @@ Style/RegexpLiteral:
 Style/RescueStandardError:
   EnforcedStyle: implicit
 
+Style/StringLiterals:
+  Exclude:
+    - spec/**/*
+
 # Ignore auto-generated files, and the like.
 Style/SymbolArray:
   Exclude:

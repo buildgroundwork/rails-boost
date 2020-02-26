@@ -42,9 +42,15 @@ module Rails::Boost
 
     initializer 'rails-boost.active_support.hash_with_indifferent_access.opinionated_keys', after: 'active_support' do
       require 'rails/boost/active_support/hash_with_indifferent_access/opinionated_keys'
-
       ::ActiveSupport::HashWithIndifferentAccess.instance_eval do
         prepend Rails::Boost::ActiveSupport::HashWithIndifferentAccess::OpinionatedKeys
+      end
+    end
+
+    initializer 'rails-boost.active_job.optional_callbacks' do
+      require 'rails/boost/active_job/optional_callbacks'
+      ::ActiveJob::Base.instance_eval do
+        prepend Rails::Boost::ActiveJob::OptionalCallbacks
       end
     end
 

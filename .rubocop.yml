@@ -78,10 +78,6 @@ Layout/TrailingEmptyLines:
 #===============
 # Style
 #===============
-# Better to be explicit with multiple hashes lying around.
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
-
 # Compactness is next to godliness.
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
@@ -107,6 +103,15 @@ Style/CommandLiteral:
 Style/CommentAnnotation:
   Keywords:
     - TODO
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 # Don't require else clauses for if statements; sometimes a nil return value is
 # just what the doctor ordered.

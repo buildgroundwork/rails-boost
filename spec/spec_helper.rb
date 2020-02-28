@@ -62,3 +62,5 @@ RSpec.configure do |config|
   Kernel.srand(config.seed)
 end
 
+ActiveJob::Base.queue_adapter = :test
+

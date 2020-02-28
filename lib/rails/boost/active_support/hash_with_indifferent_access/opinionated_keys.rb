@@ -15,7 +15,7 @@ module Rails::Boost
         end
 
         def deep_transform_keys
-          super(&Proc.new).with_indifferent_access
+          super.with_indifferent_access
         end
       end
     end

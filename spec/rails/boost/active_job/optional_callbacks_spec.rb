@@ -6,7 +6,7 @@ require "rails/boost/active_job/optional_callbacks"
 
 RSpec.describe Rails::Boost::ActiveJob::OptionalCallbacks do
   class Job < ActiveJob::Base
-    def initialize(*)
+    def initialize(*, **)
       @callback_ran = false
       super
     end

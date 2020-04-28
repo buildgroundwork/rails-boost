@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require 'rspec/its'
+require "bundler/setup"
+require "rspec/its"
+require "rspec/common"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

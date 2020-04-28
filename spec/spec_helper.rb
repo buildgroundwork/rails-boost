@@ -3,6 +3,7 @@
 require "bundler/setup"
 require "rspec/its"
 require "rspec/common"
+require "active_job"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

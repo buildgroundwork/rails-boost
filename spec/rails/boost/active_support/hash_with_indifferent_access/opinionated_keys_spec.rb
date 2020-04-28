@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
-require 'active_support/core_ext/string/inflections'
-require 'active_support/core_ext/hash/indifferent_access'
-require_relative '../../../../../lib/rails/boost/version'
-require_relative '../../../../../lib/rails/boost/active_support/hash_with_indifferent_access/opinionated_keys'
+require "active_support/core_ext/string/inflections"
+require "active_support/core_ext/hash/indifferent_access"
+require "rails/boost/active_support/hash_with_indifferent_access/opinionated_keys"
 
 RSpec.describe ActiveSupport::HashWithIndifferentAccess do
   let(:hwia) { described_class.new(a: 1, "b" => 2, c: { x: 1, "y" => 2 }) }
@@ -28,7 +27,8 @@ RSpec.describe ActiveSupport::HashWithIndifferentAccess do
   end
 
   describe "#transform_keys!" do
-    subject { hwia.transform_keys(&:titleize) }
+    subject { hwia }
+    before { hwia.transform_keys!(&:titleize) }
     its(:keys) { should == %w[A B C] }
   end
 
@@ -38,7 +38,8 @@ RSpec.describe ActiveSupport::HashWithIndifferentAccess do
   end
 
   describe "#deep_transform_keys!" do
-    subject { hwia.deep_transform_keys!(&:titleize) }
+    subject { hwia }
+    before { hwia.deep_transform_keys!(&:titleize) }
     its([:C]) { should == { "X" => 1, "Y" => 2 } }
   end
 end

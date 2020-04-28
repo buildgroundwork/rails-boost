@@ -1,172 +1,21 @@
-inherit_from:
-  - .rubocop_enabled.yml
-  - .rubocop_disabled.yml
+inherit_gem:
+  groundwork-style:
+    - rubocop.yml
+    - rubocop_performance.yml
+    - rubocop_rake.yml
+    - rubocop_rails.yml
+    - rubocop_rspec.yml
 
-AllCops:
-  Include:
-    - '**/*.rb'
-    - '**/*.rake'
-    - '**/Gemfile'
-    - '**/Rakefile'
-  Exclude:
-    - 'bin/*'
-  DisplayCopNames: true
-  TargetRubyVersion: 2.6
+Rails/ApplicationJob:
+  Enabled: false
 
-#===============
-# Layout
-#===============
-Layout/HashAlignment:
-  EnforcedLastArgumentHashStyle: ignore_implicit
-
-# Prefer this:
-#
-# Foo.new(wibble: [
-#   something,
-#   something_else
-# ])
-#
-# to this:
-#
-# Foo.new(wibble: [
-#                   something,
-#                   something_else
-#                 ])
-Layout/FirstArrayElementIndentation:
-  EnforcedStyle: consistent
-
-# Prefer this:
-#
-# Foo.new(wibble: {
-#   a: something,
-#   b: something_else
-# })
-#
-# to this:
-#
-# Foo.new(wibble: {
-#                   a: something,
-#                   b: something_else
-#                 })
-Layout/FirstHashElementIndentation:
-  EnforcedStyle: consistent
-
-Layout/MultilineAssignmentLayout:
-  SupportedTypes:
-    - case
-    - class
+RSpec/ContextWording:
+  Prefixes:
+    - after
+    - for
     - if
-    - kwbegin
-    - module
-
-# This is the default VIM indentation.
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
-# This is the default VIM indentation.
-Layout/MultilineOperationIndentation:
-  EnforcedStyle: indented
-
-# No need to provide for ASCII art in assignments (the default is to allow
-# #= and #=> to have multiple spaces).
-Layout/SpaceAroundOperators:
-  AllowForAlignment: false
-
-Layout/TrailingEmptyLines:
-  EnforcedStyle: final_blank_line
-
-#===============
-# Style
-#===============
-# Compactness is next to godliness.
-Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
-
-Style/CollectionMethods:
-  # ...ect
-  PreferredMethods:
-    map: 'collect'
-    map!: 'collect!'
-    reduce: 'inject'
-    reduce!: 'inject!'
-    find: 'detect'
-    keep_if: 'select!'
-    delete_if: 'reject!'
-
-# Use backticks on single-line commands, and %x on multi-line commands.
-Style/CommandLiteral:
-  EnforcedStyle: mixed
-  AllowInnerBackticks: false
-
-# Let's be honest, if you're putting 'HACK' comments into your code then you
-# need more than static style analysis.
-Style/CommentAnnotation:
-  Keywords:
-    - TODO
-
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
-
-# Don't require else clauses for if statements; sometimes a nil return value is
-# just what the doctor ordered.
-Style/MissingElse:
-  EnforcedStyle: case
-
-# No explicit nil checks.
-Style/NonNilCheck:
-  IncludeSemanticChanges: true
-
-# We don't pass backtraces, so this should be fine.
-Style/RaiseArgs:
-  EnforcedStyle: compact
-
-# Use slashes on single-line regexes, and %r on multi-line regexes.
-Style/RegexpLiteral:
-  EnforcedStyle: mixed
-  AllowInnerSlashes: false
-
-Style/RescueStandardError:
-  EnforcedStyle: implicit
-
-Style/StringLiterals:
-  Exclude:
-    - spec/**/*
-
-# Ignore auto-generated files, and the like.
-Style/SymbolArray:
-  Exclude:
-    - Gemfile
-
-Style/TrivialAccessors:
-  # Allows trivial writers that don't end in an equal sign. e.g.
-  #
-  # def on_exception(action)
-  #   @on_exception=action
-  # end
-  # on_exception :restart
-  #
-  # Commonly used in DSLs
-  AllowDSLWriters: true
-  # Allow methods like this:
-  #
-  # def foo?
-  #   @foo
-  # end
-  AllowPredicates: true
-
-#===============
-# Metrics
-#===============
-Metrics/BlockLength:
-  Exclude:
-    - spec/**/*
-
-Metrics/ParameterLists:
-  CountKeywordArgs: false
+    - unless
+    - when
+    - with
+    - without
 

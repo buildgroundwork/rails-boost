@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'active_storage'
+require "active_storage"
 
 module Rails::Boost
   module ActiveStorage
@@ -35,12 +35,12 @@ module Rails::Boost
       attr_reader :blob
 
       def verify_length(length)
-        raise ArgumentError.new('no length given') if length.nil?
+        raise ArgumentError.new("no length given") if length.nil?
         raise ArgumentError.new("negative length #{length} given") if length.negative?
       end
 
       def read_at_eof(length)
-        '' if length.zero?
+        "" if length.zero?
       end
 
       def read_chunk(length)

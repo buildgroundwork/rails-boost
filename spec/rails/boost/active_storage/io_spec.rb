@@ -9,7 +9,7 @@ describe Rails::Boost::ActiveStorage::IO do
   let(:io) { described_class.new(blob) }
   let(:blob) { double(:blob, service: service, key: key) }
   let(:service) { ActiveStorage::Service::MemoryService.new }
-  let(:key) { 'wibble' }
+  let(:key) { "wibble" }
   let(:content) { "Now is the time" }
 
   before { service.override(key, content) }
@@ -18,7 +18,7 @@ describe Rails::Boost::ActiveStorage::IO do
     subject { io.read(length) }
 
     # Reads length bytes from the I/O stream.
-    context "from the beginning" do
+    context "when at the beginning" do
       before { expect(io.pos).to be_zero }
 
       context "with a length shorter than the remaining content" do
@@ -77,17 +77,15 @@ describe Rails::Boost::ActiveStorage::IO do
     end
 
     context "with a negative length" do
+      subject { -> { io.read(length) } }
       let(:length) { -1 }
-      it "raises an error" do
-        expect { subject }.to raise_error(ArgumentError).with_message("negative length -1 given")
-      end
+      it { should raise_error(ArgumentError).with_message("negative length -1 given") }
     end
 
     context "with no length" do
+      subject { -> { io.read(length) } }
       let(:length) { nil }
-      it "raises an error" do
-        expect { subject }.to raise_error(ArgumentError).with_message("no length given")
-      end
+      it { should raise_error(ArgumentError).with_message("no length given") }
     end
 
     context "with length 0" do

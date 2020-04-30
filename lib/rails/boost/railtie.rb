@@ -2,6 +2,13 @@
 
 module Rails::Boost
   class Railtie < Rails::Railtie
+    initializer "rails-boost.action_controller.parameters.acceptable" do
+      require "rails/boost/action_controller/parameters/acceptable"
+      ::ActionController::Parameters.instance_eval do
+        include Rails::Boost::ActionController::Parameters::Acceptable
+      end
+    end
+
     initializer "rails-boost.action_controller.parameters.hash_polymorphism" do
       require "rails/boost/action_controller/parameters/hash_polymorphism"
       ::ActionController::Parameters.instance_eval do

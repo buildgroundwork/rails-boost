@@ -12,7 +12,7 @@
 module Rails::Boost
   module ActiveJob
     module OptionalCallbacks
-      def initialize(*args, callbacks: true, **kwargs)
+      def initialize(*args, callbacks: !ENV.fetch("ACTIVE_JOB_DISABLE_CALLBACKS", false), **kwargs)
         @rails_boost_callbacks = callbacks
         super(*args, **kwargs)
       end

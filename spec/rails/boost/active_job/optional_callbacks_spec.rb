@@ -29,12 +29,20 @@ RSpec.describe Rails::Boost::ActiveJob::OptionalCallbacks do
 
     context "after enqueuing a job without the callbacks keyword argument" do
       let(:kwargs) { {} }
-      it { should be_truthy }
+
+      context "when callbacks are disabled via environment variable" do
+        before { allow(ENV).to receive(:fetch).with("ACTIVE_JOB_DISABLE_CALLBACKS", false).and_return("true") }
+        it { should_not be_truthy }
+      end
+
+      context "when callbacks are not disabled via environment variable" do
+        it { should be_truthy }
+      end
     end
 
     context "after enqueuing a job with callbacks: false" do
       let(:kwargs) { { callbacks: false } }
-      it { should be_falsy }
+      it { should_not be_truthy }
     end
 
     context "after enqueuing a job with callbacks: true" do

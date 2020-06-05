@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ["lib"]
 
+  spec.add_dependency("io-like", "~> 0.3.1")
   spec.add_dependency("rails", "~> 6.0")
 
   spec.add_development_dependency("rake", "~> 13.0")

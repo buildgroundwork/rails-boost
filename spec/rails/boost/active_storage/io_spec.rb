@@ -83,9 +83,9 @@ describe Rails::Boost::ActiveStorage::IO do
     end
 
     context "with no length" do
-      subject { -> { io.read(length) } }
+      subject { io.read(length) }
       let(:length) { nil }
-      it { should raise_error(ArgumentError).with_message("no length given") }
+      it { should == content }
     end
 
     context "with length 0" do

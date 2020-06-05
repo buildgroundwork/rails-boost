@@ -1,57 +1,38 @@
 # frozen_string_literal: true
 
 require "active_storage"
+require "io/like"
 
 module Rails::Boost
   module ActiveStorage
     class IO
+      include ::IO::Like
+
       def initialize(blob)
         @blob = blob
         @pos = 0
       end
 
-      attr_reader :pos
+      def unbuffered_read(length)
+        raise EOFError if @eof
 
-      def read(length)
-        verify_length(length)
-        eof? ? read_at_eof(length) : read_chunk(length)
-      end
+        range = @pos...(@pos + length)
 
-      def eof?
-        @eof
-      end
-
-      def rewind
-        self.pos = 0
-      end
-
-      def pos=(value)
-        @eof = false
-        @pos = value
-      end
-
-      private
-
-      attr_reader :blob
-
-      def verify_length(length)
-        raise ArgumentError.new("no length given") if length.nil?
-        raise ArgumentError.new("negative length #{length} given") if length.negative?
-      end
-
-      def read_at_eof(length)
-        "" if length.zero?
-      end
-
-      def read_chunk(length)
-        blob.service.download_chunk(blob.key, range_for(length)).tap do |content|
-          self.pos += content.length
+        @blob.service.download_chunk(@blob.key, range).tap do |content|
           @eof = true if content.length < length
+          @pos += content.length
         end
       end
 
-      def range_for(length)
-        pos...(pos + length)
+      def unbuffered_seek(offset, whence)
+        @eof = false
+        @pos = (
+          case whence
+          when ::IO::SEEK_SET then offset
+          when ::IO::SEEK_CUR then @pos + offset
+          else raise ArgumentError
+          end
+        )
       end
     end
   end

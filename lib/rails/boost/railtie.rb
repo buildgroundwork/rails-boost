@@ -37,6 +37,11 @@ module Rails::Boost
       end
     end
 
+    initializer "rails-boost.active_record.types.set", after: "active_record" do
+      require "rails/boost/active_record/type/set"
+      ::ActiveRecord::Type.register(:set, Rails::Boost::ActiveRecord::Type::Set)
+    end
+
     initializer "rails-boost.active_storage.blob.sensible_key" do
       require "rails/boost/active_storage/blob/sensible_key"
 

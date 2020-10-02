@@ -4,12 +4,14 @@ module Rails::Boost
   module ActiveStorage
     module Blob
       module SensibleKey
-        def self.prepended(klass)
-          klass.instance_eval do
-            has_one :attachment
-            delegate :record, to: :attachment
+        class << self
+          def prepended(klass)
+            klass.instance_eval do
+              has_one :attachment
+              delegate :record, to: :attachment
 
-            before_create :set_sensible_key
+              before_create :set_sensible_key
+            end
           end
         end
 

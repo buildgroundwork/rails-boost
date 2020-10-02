@@ -9,13 +9,3 @@ inherit_gem:
 Rails/ApplicationJob:
   Enabled: false
 
-RSpec/ContextWording:
-  Prefixes:
-    - after
-    - for
-    - if
-    - unless
-    - when
-    - with
-    - without
-

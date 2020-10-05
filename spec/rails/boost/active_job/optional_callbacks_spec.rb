@@ -27,7 +27,7 @@ RSpec.describe Rails::Boost::ActiveJob::OptionalCallbacks do
     subject { job.callback_ran }
     let(:job) { OptionalCallbacksTestJob.perform_later(**kwargs) }
 
-    context "after enqueuing a job without the callbacks keyword argument" do
+    context "when enqueuing a job without the callbacks keyword argument" do
       let(:kwargs) { {} }
 
       context "when callbacks are disabled via environment variable" do
@@ -40,12 +40,12 @@ RSpec.describe Rails::Boost::ActiveJob::OptionalCallbacks do
       end
     end
 
-    context "after enqueuing a job with callbacks: false" do
+    context "when enqueuing a job with callbacks: false" do
       let(:kwargs) { { callbacks: false } }
       it { should_not be_truthy }
     end
 
-    context "after enqueuing a job with callbacks: true" do
+    context "when enqueuing a job with callbacks: true" do
       let(:kwargs) { { callbacks: true } }
       it { should be_truthy }
     end

@@ -32,7 +32,7 @@ describe Rails::Boost::ActiveStorage::IO do
       end
     end
 
-    context "after pos is set" do
+    context "when pos is set" do
       let(:pos) { 1 }
       before { io.pos = pos }
 
@@ -47,7 +47,7 @@ describe Rails::Boost::ActiveStorage::IO do
       end
     end
 
-    context "after a previous read" do
+    context "on a subsequent read" do
       let(:pos) { 1 }
       before { io.read(pos) }
 

@@ -5,6 +5,7 @@ module Rails::Boost
     module Blob
       module SensibleKey
         class << self
+          # rubocop:disable Style/MethodCallWithArgsParentheses
           def prepended(klass)
             klass.instance_eval do
               has_one :attachment
@@ -13,6 +14,7 @@ module Rails::Boost
               before_create :set_sensible_key
             end
           end
+          # rubocop:enable Style/MethodCallWithArgsParentheses
         end
 
         private

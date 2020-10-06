@@ -5,7 +5,7 @@ require "rails/boost/active_storage/io"
 require "rspec/common/extensions/active_storage/service/memory"
 require "active_support/all"
 
-describe Rails::Boost::ActiveStorage::IO do
+RSpec.describe Rails::Boost::ActiveStorage::IO do
   let(:io) { described_class.new(blob) }
   let(:blob) { double(:blob, service: service, key: key) }
   let(:service) { ActiveStorage::Service::MemoryService.new }

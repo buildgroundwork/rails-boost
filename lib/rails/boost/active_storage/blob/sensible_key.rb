@@ -20,7 +20,7 @@ module Rails::Boost
         private
 
         def set_sensible_key
-          if (tokenized = record.class.active_storage_keys[attachment.name])
+          if (tokenized = attachment.record_type.constantize.active_storage_keys[attachment.name])
             write_attribute(:key, substitute_tokens(tokenized))
           end
         end

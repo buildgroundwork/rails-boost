@@ -66,6 +66,13 @@ module Rails::Boost
       end
     end
 
+    initializer "rails-boost.action_dispatch.routing.canonical_host" do
+      require "rails/boost/action_dispatch/routing/canonical_host"
+      ::ActionDispatch::Routing::Mapper.instance_eval do
+        include Rails::Boost::ActionDispatch::Routing::CanonicalHost
+      end
+    end
+
     rake_tasks do
       load "rails/boost/tasks/db.rake"
     end

@@ -77,13 +77,11 @@ RSpec.describe Rails::Boost::ActiveStorage::IO do
     end
 
     context "with a negative length" do
-      subject { -> { io.read(length) } }
       let(:length) { -1 }
-      it { should raise_error(ArgumentError).with_message("negative length -1 given") }
+      its(:itself) { will raise_error(ArgumentError).with_message("negative length -1 given") }
     end
 
     context "with no length" do
-      subject { io.read(length) }
       let(:length) { nil }
       it { should == content }
     end

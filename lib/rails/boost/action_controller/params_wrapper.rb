@@ -9,6 +9,10 @@ module Rails::Boost
         def model
           self[:model]
         end
+
+        def include
+          self[:include]
+        end
       end
 
       class << self

@@ -80,6 +80,13 @@ module Rails::Boost
       end
     end
 
+    initializer "rails-boost.action_dispatch.routing.route_set" do
+      require "rails/boost/action_dispatch/routing/route_set"
+      ::ActionDispatch::Routing::RouteSet.instance_eval do
+        include Rails::Boost::ActionDispatch::Routing::RouteSet::AsJson
+      end
+    end
+
     rake_tasks do
       load "rails/boost/tasks/db.rake"
     end

@@ -8,7 +8,7 @@ module Rails::Boost
           def as_json(*args, include_rails: false, include_format: false, **kwargs)
             paths = route_paths
             paths = paths.reject { |route| route.name.include?("rails") } unless include_rails
-            paths.collect { |route| [json_name(route), json_path(route, include_format: include_format)] }.to_h.as_json(*args, **kwargs)
+            paths.to_h { |route| [json_name(route), json_path(route, include_format: include_format)] }.as_json(*args, **kwargs)
           end
 
           private

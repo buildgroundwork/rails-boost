@@ -95,6 +95,12 @@ module Rails::Boost
         require "rails/boost/jbuilder/render_path"
         ::JbuilderTemplate.instance_eval { prepend Jbuilder::RenderPath }
       end
+
+      initializer "rails-boost.jbuilder.authorize" do
+        require "rails/boost/jbuilder/authorize"
+        ::JbuilderTemplate.instance_eval { prepend Jbuilder::Authorize }
+        ::Jbuilder.extend Jbuilder::Authorizer
+      end
     rescue LoadError
     end
     # rubocop:enable Lint/SuppressedException, Style/MethodCallWithArgsParentheses

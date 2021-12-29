@@ -7,7 +7,7 @@ require "rails/boost/active_support/hash_with_indifferent_access/opinionated_key
 # rubocop:disable RSpec/FilePath
 RSpec.describe ActiveSupport::HashWithIndifferentAccess do
   let(:hwia) { described_class.new(a: 1, "b" => 2, c: { x: 1, "y" => 2 }) }
-  before do
+  before(:all) do
     ::ActiveSupport::HashWithIndifferentAccess.instance_eval do
       prepend Rails::Boost::ActiveSupport::HashWithIndifferentAccess::OpinionatedKeys
     end

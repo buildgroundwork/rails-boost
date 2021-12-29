@@ -9,3 +9,8 @@ inherit_gem:
 Rails/ApplicationJob:
   Enabled: false
 
+# This projects uses before(:all) a lot, for including the extension modules
+# into the Rails classes they augment.
+RSpec/BeforeAfterAll:
+  Enabled: false
+

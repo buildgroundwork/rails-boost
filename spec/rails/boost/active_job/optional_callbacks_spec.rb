@@ -16,7 +16,7 @@ class OptionalCallbacksTestJob < ActiveJob::Base
 end
 
 RSpec.describe Rails::Boost::ActiveJob::OptionalCallbacks do
-  before do
+  before(:all) do
     require "rails/boost/active_job/optional_callbacks"
     ::ActiveJob::Base.instance_eval do
       prepend ::Rails::Boost::ActiveJob::OptionalCallbacks

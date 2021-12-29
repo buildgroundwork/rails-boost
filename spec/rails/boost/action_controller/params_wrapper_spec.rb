@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 end
 
 RSpec.describe Rails::Boost::ActionController::ParamsWrapper do
-  before(:all) do # rubocop:disable RSpec/BeforeAfterAll
+  before(:all) do
     ::ActionController::ParamsWrapper.instance_eval do
       include ::Rails::Boost::ActionController::ParamsWrapper
     end

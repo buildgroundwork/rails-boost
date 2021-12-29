@@ -87,6 +87,18 @@ module Rails::Boost
       end
     end
 
+    # rubocop:disable Lint/SuppressedException, Style/MethodCallWithArgsParentheses
+    begin
+      require "jbuilder"
+
+      initializer "rails-boost.jbuilder.render_path" do
+        require "rails/boost/jbuilder/render_path"
+        ::JbuilderTemplate.instance_eval { prepend Jbuilder::RenderPath }
+      end
+    rescue LoadError
+    end
+    # rubocop:enable Lint/SuppressedException, Style/MethodCallWithArgsParentheses
+
     rake_tasks do
       load "rails/boost/tasks/db.rake"
     end

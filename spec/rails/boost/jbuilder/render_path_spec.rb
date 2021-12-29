@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-require "jbuilder"
-require "action_view/testing/resolvers"
+require "jbuilder_helper"
 require "rails/boost/jbuilder/render_path"
-require "rspec/common/matchers"
-
-ActionView::Template.register_template_handler :jbuilder, JbuilderHandler
 
 WITHOUT_RENDER_PATH = <<~JBUILDER
   json.without(1)
@@ -31,10 +27,12 @@ PARTIALS = {
 }.freeze
 
 RSpec.describe Rails::Boost::Jbuilder::RenderPath do
+  include Jbuilder::TestRender
+
   before { ::JbuilderTemplate.instance_eval { prepend ::Rails::Boost::Jbuilder::RenderPath } }
 
   describe "#render" do
-    subject { render(source) }
+    subject { render(source, partials: PARTIALS) }
 
     context "with a partial that contains no nested blocks" do
       let(:source) { %[json.partial!("without_render_path")] }
@@ -78,21 +76,6 @@ RSpec.describe Rails::Boost::Jbuilder::RenderPath do
         it { should_not have_json_element(:without) }
       end
     end
-  end
-
-  private
-
-  def render(source)
-    view = build_view(fixtures: PARTIALS.merge("source.json.jbuilder" => source))
-    view.render(template: "source")
-  end
-
-  def build_view(fixtures: )
-    resolver = ActionView::FixtureResolver.new(fixtures)
-    lookup_context = ActionView::LookupContext.new([resolver], {}, [""])
-    controller = ActionView::TestCase::TestController.new
-
-    ActionView::Base.with_empty_template_cache.new(lookup_context, {}, controller)
   end
 end
 

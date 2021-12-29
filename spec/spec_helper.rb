@@ -2,7 +2,7 @@
 
 require "bundler/setup"
 require "rspec/its"
-require "rspec/common"
+require "rspec/common/matchers"
 require "active_job"
 
 RSpec.configure do |config|

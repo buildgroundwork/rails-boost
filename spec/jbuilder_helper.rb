@@ -18,7 +18,7 @@ module Jbuilder::TestRender
 
     ActionView::Base.with_empty_template_cache.new(lookup_context, assigns, controller).tap do |view|
       view.singleton_class.instance_eval do
-        include Pundit
+        include Pundit::Authorization
         define_method(:current_user) { current_user }
       end
     end

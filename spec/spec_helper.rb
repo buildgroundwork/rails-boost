@@ -7,6 +7,8 @@ require "rspec/common/expectations"
 require "active_job"
 
 RSpec.configure do |config|
+  config.raise_errors_for_deprecations!
+
   config.expect_with :rspec do |expectations|
     expectations.syntax = %i[should expect]
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency("rails", "~> 7.0")
 
   spec.add_development_dependency("jbuilder", "~> 2.0")
-  spec.add_development_dependency("pg")
+  spec.add_development_dependency("pg", "~> 1.3")
   spec.add_development_dependency("pundit", "~> 2.2")
   spec.add_development_dependency("rake", "~> 13.0")
   spec.add_development_dependency("rspec", "~> 3.9")

@@ -2,6 +2,11 @@
 
 module Rails::Boost
   class Railtie < Rails::Railtie
+    initializer "rails-boost.active_model.creation" do
+      require "rails/boost/active_model/creation"
+      ::ActiveModel.const_set(:Creation, Rails::Boost::ActiveModel::Creation)
+    end
+
     initializer "rails-boost.action_controller.parameters.acceptable" do
       require "rails/boost/action_controller/parameters/acceptable"
       ::ActionController::Parameters.instance_eval do

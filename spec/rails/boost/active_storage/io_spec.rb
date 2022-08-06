@@ -7,7 +7,7 @@ require "active_support/all"
 
 RSpec.describe Rails::Boost::ActiveStorage::IO do
   let(:io) { described_class.new(blob) }
-  let(:blob) { double(:blob, service: service, key: key) }
+  let(:blob) { double(:blob, service:, key:) }
   let(:service) { ActiveStorage::Service::MemoryService.new }
   let(:key) { "wibble" }
   let(:content) { "Now is the time" }

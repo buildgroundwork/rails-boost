@@ -27,7 +27,7 @@ RSpec.describe Rails::Boost::ActiveModel::Creation do
 
     # rubocop:disable RSpec/MultipleExpectations
     it "allows creation of a model" do
-      thing = Thing.create(foo: foo, bar: bar)
+      thing = Thing.create(foo:, bar:)
       expect(thing.foo).to be(foo)
       expect(thing.bar).to be(bar)
     end

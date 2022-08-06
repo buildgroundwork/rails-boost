@@ -13,7 +13,7 @@ RSpec.describe Rails::Boost::Jbuilder::Authorize do
   end
 
   describe "#render" do
-    subject { render(source, assigns: { resource: resource }, current_user: current_user) }
+    subject { render(source, assigns: { resource: }, current_user:) }
     let(:source) { %[json.authorize!(@resource)] }
     let(:resource) { Object.new }
 

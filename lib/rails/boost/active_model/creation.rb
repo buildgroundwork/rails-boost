@@ -17,8 +17,6 @@ module Rails::Boost
           new(...).tap(&:save)
         end
       end
-
-      def save; end
     end
   end
 end

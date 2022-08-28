@@ -14,7 +14,10 @@ RSpec.describe Rails::Boost::ActiveModel::Creation do
       def initialize(foo: , bar: )
         @foo = foo; @bar = bar
       end
+
       attr_reader :foo, :bar
+
+      def save; end
     end
     Object.const_set(:Thing, klass)
   end

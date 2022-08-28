@@ -35,6 +35,11 @@ module Rails::Boost
       end
     end
 
+    initializer "rails-boost.active_record.find_by_param", after: "active_record" do
+      require "rails/boost/active_record/find_by_param"
+      ::ActiveRecord::Base.extend(Rails::Boost::ActiveRecord::FindByParam)
+    end
+
     initializer "rails-boost.active_record.named_parameters", after: "active_record" do
       require "rails/boost/active_record/named_parameters"
       ::ActiveRecord::Base.instance_eval do

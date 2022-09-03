@@ -129,5 +129,25 @@ RSpec.describe Rails::Boost::ActiveStorage::IO do
     it { should change(io, :pos).to be_zero }
     it { should change(io, :eof?).to(false) }
   end
+
+  describe "#gets" do
+    subject { io.gets(separator, limit) }
+    let(:content) { "Now is\nthe\ntime" }
+    let(:separator) { "\n" }
+
+    # rubocop:disable RSpec/EmptyExampleGroup
+    context "with a limit" do
+      let(:limit) { 3 }
+      # This is what this should return, but it does not due to limitations of
+      # the underlying IO::Like library.
+      # it { should == "Now" }
+    end
+    # rubocop:enable RSpec/EmptyExampleGroup
+
+    context "without a limit" do
+      let(:limit) { nil }
+      it { should == "Now is\n" }
+    end
+  end
 end
 

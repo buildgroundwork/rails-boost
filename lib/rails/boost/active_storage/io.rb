@@ -13,6 +13,14 @@ module Rails::Boost
         @pos = 0
       end
 
+      # The IO::Like module does not handle calls to #gets with a limit
+      # parameter.  This ignores this second parameter, which means this won't
+      # necessarily return the correct amount of content, but it also won't
+      # throw an argument error.
+      def gets(separator = $INPUT_RECORD_SEPARATOR, _limit = nil)
+        super(separator)
+      end
+
       def unbuffered_read(length)
         raise EOFError if @eof
 

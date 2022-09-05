@@ -32,7 +32,20 @@ RSpec.describe Rails::Boost::Jbuilder::Authorize do
 
       context "with a user with authorization for any action" do
         let(:current_user) { "admin" }
-        it { should have_json_element(:auth).with_value(%w[create read update destroy]) }
+
+        context "when restricted to only one action" do
+          let(:source) { %[json.authorize!(@resource, only: :read)] }
+          it { should have_json_element(:auth).with_value(%w[read]) }
+        end
+
+        context "when restricted to multiple actions" do
+          let(:source) { %[json.authorize!(@resource, only: %w[read update])] }
+          it { should have_json_element(:auth).with_value(%w[read update]) }
+        end
+
+        context "when not restricted" do
+          it { should have_json_element(:auth).with_value(%w[create read update destroy]) }
+        end
       end
     end
 

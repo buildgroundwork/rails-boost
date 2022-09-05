@@ -10,6 +10,10 @@ module Rails::Boost
       # =============================
       # json.authorize!(@wibble) => { auth: ['read', 'update'] }
       #
+      # OR
+      #
+      # json.authorize!(@wibble, only: :read) => { auth: ['read'] }
+      #
       # This will use the current user, and the policy object associated with
       # the resource (if using Pundit), or a custom authorizer object provided
       # at initialization.
@@ -51,9 +55,9 @@ module Rails::Boost
       # end
       ACTIONS = %i[create read update destroy].freeze
 
-      def authorize!(resource)
+      def authorize!(resource, only: ACTIONS)
         authorizer = _authorizer_for(resource)
-        set!(:auth, ACTIONS.select { |action| authorizer.public_send(:"#{action}?") })
+        set!(:auth, [*only].select { |action| authorizer.public_send(:"#{action}?") })
       end
     end
 

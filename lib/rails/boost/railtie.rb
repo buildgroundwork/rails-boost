@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 module Rails::Boost
   class Railtie < Rails::Railtie
     initializer "rails-boost.active_model.creation" do
@@ -35,28 +36,34 @@ module Rails::Boost
       end
     end
 
-    initializer "rails-boost.active_record.find_by_param", after: "active_record" do
+    initializer "rails-boost.active_record.find_by_param" do
       require "rails/boost/active_record/find_by_param"
-      ::ActiveRecord::Base.extend(Rails::Boost::ActiveRecord::FindByParam)
+      ::ActiveSupport.on_load(:active_record) do
+        extend(Rails::Boost::ActiveRecord::FindByParam)
+      end
     end
 
-    initializer "rails-boost.active_record.named_parameters", after: "active_record" do
+    initializer "rails-boost.active_record.named_parameters" do
       require "rails/boost/active_record/named_parameters"
-      ::ActiveRecord::Base.instance_eval do
+      ::ActiveSupport.on_load(:active_record) do
         prepend Rails::Boost::ActiveRecord::NamedParameters
       end
     end
 
-    initializer "rails-boost.active_record.active_storage_keys", after: "active_record" do
+    initializer "rails-boost.active_record.active_storage_keys" do
       require "rails/boost/active_record/active_storage_keys"
-      ::ActiveRecord::Base.singleton_class.instance_eval do
-        prepend Rails::Boost::ActiveRecord::ActiveStorageKeys
+      ::ActiveSupport.on_load(:active_record) do
+        singleton_class.instance_eval do
+          prepend Rails::Boost::ActiveRecord::ActiveStorageKeys
+        end
       end
     end
 
-    initializer "rails-boost.active_record.types.set", after: "active_record" do
+    initializer "rails-boost.active_record.types.set" do
       require "rails/boost/active_record/type/set"
-      ::ActiveRecord::Type.register(:set, Rails::Boost::ActiveRecord::Type::Set)
+      ::ActiveSupport.on_load(:active_record) do
+        ::ActiveRecord::Type.register(:set, Rails::Boost::ActiveRecord::Type::Set)
+      end
     end
 
     initializer "rails-boost.active_storage.blob.sensible_key" do
@@ -69,7 +76,7 @@ module Rails::Boost
       end
     end
 
-    initializer "rails-boost.active_support.hash_with_indifferent_access.opinionated_keys", after: "active_support" do
+    initializer "rails-boost.active_support.hash_with_indifferent_access.opinionated_keys", after: "load_active_support" do
       require "rails/boost/active_support/hash_with_indifferent_access/opinionated_keys"
       ::ActiveSupport::HashWithIndifferentAccess.instance_eval do
         prepend Rails::Boost::ActiveSupport::HashWithIndifferentAccess::OpinionatedKeys
@@ -120,4 +127,5 @@ module Rails::Boost
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
 

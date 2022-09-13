@@ -8,6 +8,8 @@
 # HWIA to a Hash.
 module Rails::Boost
   module ActiveSupport
+    # This is not a reference to top-level HWIA
+    # rubocop:disable Rails/TopLevelHashWithIndifferentAccess
     module HashWithIndifferentAccess
       module OpinionatedKeys
         def to_hash
@@ -19,6 +21,7 @@ module Rails::Boost
         end
       end
     end
+    # rubocop:enable Rails/TopLevelHashWithIndifferentAccess
   end
 end
 

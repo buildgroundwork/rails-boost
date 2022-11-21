@@ -23,28 +23,50 @@ RSpec.describe Rails::Boost::Jbuilder::Authorize do
         resource.singleton_class.instance_eval { define_method(:policy_class) { APolicy } }
       end
 
-      Rails::Boost::Jbuilder::Authorize::ACTIONS.each do |action|
-        context "with a user with only #{action} authorization" do
-          let(:current_user) { "can #{action}" }
-          it { should have_json_element(:auth).with_value(%W[#{action}]) }
+      context "with no block given" do
+        Rails::Boost::Jbuilder::Authorize::ACTIONS.each do |action|
+          context "with a user with only #{action} authorization" do
+            let(:current_user) { "can #{action}" }
+            it { should have_json_element(:auth).with_value(%W[#{action}]) }
+          end
+        end
+
+        context "with a user with authorization for any action" do
+          let(:current_user) { "admin" }
+
+          context "when restricted to only one action" do
+            let(:source) { %[json.authorize!(@resource, only: :read)] }
+            it { should have_json_element(:auth).with_value(%w[read]) }
+          end
+
+          context "when restricted to multiple actions" do
+            let(:source) { %[json.authorize!(@resource, only: %w[read update])] }
+            it { should have_json_element(:auth).with_value(%w[read update]) }
+          end
+
+          context "when not restricted" do
+            it { should have_json_element(:auth).with_value(%w[create read update destroy]) }
+          end
         end
       end
 
-      context "with a user with authorization for any action" do
-        let(:current_user) { "admin" }
+      context "with a block given" do
+        let(:source) { <<~SOURCE }
+          json.authorize!(@resource) do
+            json.wibble(1)
+          end
+        SOURCE
 
-        context "when restricted to only one action" do
-          let(:source) { %[json.authorize!(@resource, only: :read)] }
+        context "with a user with authorization for any action" do
+          let(:current_user) { "can read" }
           it { should have_json_element(:auth).with_value(%w[read]) }
+          it { should have_json_element(:wibble).with_value(1) }
         end
 
-        context "when restricted to multiple actions" do
-          let(:source) { %[json.authorize!(@resource, only: %w[read update])] }
-          it { should have_json_element(:auth).with_value(%w[read update]) }
-        end
-
-        context "when not restricted" do
-          it { should have_json_element(:auth).with_value(%w[create read update destroy]) }
+        context "with a user with authorization for no actions" do
+          let(:current_user) { "cannot!" }
+          it { should_not have_json_element(:auth) }
+          it { should_not have_json_element(:wibble) }
         end
       end
     end

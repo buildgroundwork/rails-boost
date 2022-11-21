@@ -14,9 +14,20 @@ module Rails::Boost
       #
       # json.authorize!(@wibble, only: :read) => { auth: ['read'] }
       #
+      # OR
+      #
+      # json.authorize!(@wibble) do
+      #   json.wibble do
+      #     ...
+      #   end
+      # end
+      #
       # This will use the current user, and the policy object associated with
       # the resource (if using Pundit), or a custom authorizer object provided
       # at initialization.
+      #
+      # The block form will not include any contents of the block if the user
+      # has no authorized actions.
       #
       # Using Pundit
       # ============
@@ -57,7 +68,16 @@ module Rails::Boost
 
       def authorize!(resource, only: ACTIONS)
         authorizer = _authorizer_for(resource)
-        set!(:auth, [*only].select { |action| authorizer.public_send(:"#{action}?") })
+        authorized_actions = [*only].select { |action| authorizer.public_send(:"#{action}?") }
+
+        if Kernel.block_given?
+          if authorized_actions.any?
+            set!(:auth, authorized_actions)
+            merge!(_scope { yield })
+          end
+        else
+          set!(:auth, authorized_actions)
+        end
       end
     end
 

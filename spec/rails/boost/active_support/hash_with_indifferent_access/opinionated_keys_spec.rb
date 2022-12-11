@@ -4,13 +4,11 @@ require "active_support/core_ext/string/inflections"
 require "active_support/core_ext/hash/indifferent_access"
 require "rails/boost/active_support/hash_with_indifferent_access/opinionated_keys"
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe ActiveSupport::HashWithIndifferentAccess do
-  let(:hwia) { described_class.new(a: 1, "b" => 2, c: { x: 1, "y" => 2 }) }
+RSpec.describe Rails::Boost::ActiveSupport::HashWithIndifferentAccess::OpinionatedKeys do
+  let(:hwia) { ActiveSupport::HashWithIndifferentAccess.new(a: 1, "b" => 2, c: { x: 1, "y" => 2 }) }
   before(:all) do
-    ::ActiveSupport::HashWithIndifferentAccess.instance_eval do
-      prepend Rails::Boost::ActiveSupport::HashWithIndifferentAccess::OpinionatedKeys
-    end
+    mod = described_class
+    ActiveSupport::HashWithIndifferentAccess.instance_eval { prepend mod }
   end
 
   describe "#to_hash" do
@@ -42,5 +40,4 @@ RSpec.describe ActiveSupport::HashWithIndifferentAccess do
     its([:C]) { should == { "X" => 1, "Y" => 2 } }
   end
 end
-# rubocop:enable RSpec/FilePath
 

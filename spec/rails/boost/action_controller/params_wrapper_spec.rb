@@ -21,9 +21,8 @@ end
 
 RSpec.describe Rails::Boost::ActionController::ParamsWrapper do
   before(:all) do
-    ::ActionController::ParamsWrapper.instance_eval do
-      include ::Rails::Boost::ActionController::ParamsWrapper
-    end
+    mod = described_class
+    ActionController::ParamsWrapper.instance_eval { include mod }
   end
 
   describe "._wrapper_options" do

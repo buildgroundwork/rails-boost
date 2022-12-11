@@ -29,7 +29,10 @@ PARTIALS = {
 RSpec.describe Rails::Boost::Jbuilder::RenderPath do
   include Jbuilder::TestRender
 
-  before(:all) { ::JbuilderTemplate.instance_eval { prepend ::Rails::Boost::Jbuilder::RenderPath } }
+  before(:all) do
+    mod = described_class
+    JbuilderTemplate.instance_eval { prepend mod }
+  end
 
   describe "#render" do
     subject { render(source, partials: PARTIALS) }

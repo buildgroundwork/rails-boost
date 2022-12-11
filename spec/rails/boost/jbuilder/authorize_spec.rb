@@ -8,8 +8,9 @@ RSpec.describe Rails::Boost::Jbuilder::Authorize do
   include Jbuilder::TestRender
 
   before(:all) do
-    ::JbuilderTemplate.instance_eval { prepend ::Rails::Boost::Jbuilder::Authorize }
-    ::Jbuilder.extend(::Rails::Boost::Jbuilder::Authorizer)
+    mod = described_class
+    JbuilderTemplate.instance_eval { prepend mod }
+    Jbuilder.extend(Rails::Boost::Jbuilder::Authorizer)
   end
 
   describe "#render" do
@@ -19,7 +20,7 @@ RSpec.describe Rails::Boost::Jbuilder::Authorize do
 
     context "when authorized with Pundit" do
       before do
-        ::Jbuilder.authorize_with(:pundit)
+        Jbuilder.authorize_with(:pundit)
         resource.singleton_class.instance_eval { define_method(:policy_class) { APolicy } }
       end
 
@@ -74,7 +75,7 @@ RSpec.describe Rails::Boost::Jbuilder::Authorize do
     context "when authorized with a custom authorizer" do
       let(:authorizer) { Authorizer.new(action) }
       let(:current_user) { "a user" }
-      before { ::Jbuilder.authorize_with(AnAuthorizer) }
+      before { Jbuilder.authorize_with(AnAuthorizer) }
 
       Rails::Boost::Jbuilder::Authorize::ACTIONS.each do |action|
         context "with a resource with only #{action} authorization" do

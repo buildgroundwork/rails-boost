@@ -6,7 +6,7 @@ require "active_model"
 
 RSpec.describe Rails::Boost::ActiveModel::Creation do
   before(:all) do
-    ::ActiveModel.const_set(:Creation, described_class)
+    ActiveModel.const_set(:Creation, described_class)
 
     klass = Class.new do
       include ActiveModel::Creation

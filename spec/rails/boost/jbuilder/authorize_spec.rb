@@ -70,6 +70,28 @@ RSpec.describe Rails::Boost::Jbuilder::Authorize do
           it { should_not have_json_element(:wibble) }
         end
       end
+
+      context "when authorizing a collection" do
+        let(:source) { %[json.authorize_collection!(@resource)] }
+
+        context "with a user with only index authorization" do
+          let(:current_user) { "can index" }
+          it { should have_json_element(:auth).with_value(%w[read]) }
+        end
+
+        context "with a user with authorization for any action" do
+          let(:current_user) { "admin" }
+
+          context "when restricted to only one action" do
+            let(:source) { %[json.authorize_collection!(@resource, only: :read)] }
+            it { should have_json_element(:auth).with_value(%w[read]) }
+          end
+
+          context "when not restricted" do
+            it { should have_json_element(:auth).with_value(%w[create read]) }
+          end
+        end
+      end
     end
 
     context "when authorized with a custom authorizer" do
@@ -98,6 +120,10 @@ class APolicy
   end
 
   attr_reader :user
+
+  def index?
+    user == "admin" || user == "can index"
+  end
 
   def show?
     user == "admin" || user == "can read"

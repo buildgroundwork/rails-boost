@@ -8,11 +8,11 @@ module Rails::Boost
       #
       # Template wibble.json.jbuilder
       # =============================
-      # json.authorize!(@wibble) => { auth: ['read', 'update'] }
+      # json.authorize!(@wibble) # => { auth: ['read', 'update'] }
       #
       # OR
       #
-      # json.authorize!(@wibble, only: :read) => { auth: ['read'] }
+      # json.authorize!(@wibble, only: :read) # => { auth: ['read'] }
       #
       # OR
       #
@@ -21,6 +21,10 @@ module Rails::Boost
       #     ...
       #   end
       # end
+      #
+      # OR
+      #
+      # json.authorize_collection!(Wibble.all) # => { auth: ['create', 'read'] }
       #
       # This will use the current user, and the policy object associated with
       # the resource (if using Pundit), or a custom authorizer object provided
@@ -65,10 +69,19 @@ module Rails::Boost
       #   end
       # end
       ACTIONS = %i[create read update destroy].freeze
+      COLLECTION_ACTIONS = %i[create read].freeze
 
-      def authorize!(resource, only: ACTIONS)
-        authorizer = _authorizer_for(resource)
-        authorized_actions = [*only].select { |action| authorizer.public_send(:"#{action}?") }
+      def authorize!(resource, only: ACTIONS, &block)
+        _authorize!(resource, [*only], &block)
+      end
+
+      def authorize_collection!(resource, only: COLLECTION_ACTIONS, &block)
+        _authorize!(resource, [*only], collection: true, &block)
+      end
+
+      def _authorize!(resource, actions, collection: false)
+        authorizer = _authorizer_for(resource, collection:)
+        authorized_actions = actions.select { |action| authorizer.public_send(:"#{action}?") }
 
         if Kernel.block_given?
           if authorized_actions.any?
@@ -88,22 +101,27 @@ module Rails::Boost
       end
 
       module PunditAuthorizer
-        def _authorizer_for(resource)
-          PunditAdapter.new(@context.__send__(:policy, resource))
+        def _authorizer_for(resource, collection: )
+          PunditAdapter.new(@context.__send__(:policy, resource), collection:)
         end
 
         class PunditAdapter
-          def initialize(policy)
+          def initialize(policy, collection: )
             @policy = policy
+            @collection = collection
           end
 
           delegate :create?, :update?, :destroy?, to: :policy
 
           def read?
-            policy.show?
+            collection? ? policy.index? : policy.show?
           end
 
           attr_reader :policy
+
+          private
+
+          def collection? = @collection
         end
       end
 
@@ -111,8 +129,8 @@ module Rails::Boost
         def initialize(authorizer_class)
           super()
 
-          define_method(:_authorizer_for) do |resource|
-            authorizer_class.new(@context.current_user, resource)
+          define_method(:_authorizer_for) do |resource, collection:|
+            authorizer_class.new(@context.current_user, resource, collection:)
           end
         end
       end

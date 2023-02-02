@@ -49,6 +49,11 @@ RSpec.describe Rails::Boost::Jbuilder::Authorize do
             it { should have_json_element(:auth).with_value(%w[create read update destroy]) }
           end
         end
+
+        context "with a user with authorization for no actions" do
+          let(:current_user) { "cannot!" }
+          it { should_not have_json_element(:auth) }
+        end
       end
 
       context "with a block given" do

@@ -83,13 +83,9 @@ module Rails::Boost
         authorizer = _authorizer_for(resource, collection:)
         authorized_actions = actions.select { |action| authorizer.public_send(:"#{action}?") }
 
-        if Kernel.block_given?
-          if authorized_actions.any?
-            set!(:auth, authorized_actions)
-            merge!(_scope { yield })
-          end
-        else
+        if authorized_actions.any?
           set!(:auth, authorized_actions)
+          merge!(_scope { yield }) if Kernel.block_given?
         end
       end
     end

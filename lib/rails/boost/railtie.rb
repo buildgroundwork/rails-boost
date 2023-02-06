@@ -76,6 +76,21 @@ module Rails::Boost
       end
     end
 
+    initializer "rails-boost.active_storage.content_encoding" do
+      require "rails/boost/active_storage/blob/content_encoding"
+      require "rails/boost/active_storage/service/s3_service/content_encoding"
+
+      ActiveSupport.on_load(:active_storage_blob) do
+        ::ActiveStorage::Blob.instance_eval do
+          prepend Rails::Boost::ActiveStorage::Blob::ContentEncoding
+        end
+
+        ::ActiveStorage::Service::S3Service.instance_eval do
+          prepend Rails::Boost::ActiveStorage::Service::S3Service::ContentEncoding
+        end
+      end
+    end
+
     initializer "rails-boost.active_support.hash_with_indifferent_access.opinionated_keys", after: "load_active_support" do
       require "rails/boost/active_support/hash_with_indifferent_access/opinionated_keys"
       ::ActiveSupport::HashWithIndifferentAccess.instance_eval do

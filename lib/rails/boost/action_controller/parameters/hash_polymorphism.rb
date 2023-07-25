@@ -10,9 +10,9 @@ module Rails::Boost
   module ActionController
     module Parameters
       module HashPolymorphism
-        def method_missing(method, *args, &)
+        def method_missing(method, ...)
           h = to_h
-          h.respond_to?(method) ? h.public_send(method, *args, &) : super
+          h.respond_to?(method) ? h.public_send(method, ...) : super
         end
 
         def respond_to_missing?(method, *args)

@@ -76,17 +76,19 @@ module Rails::Boost
       end
     end
 
-    initializer "rails-boost.active_storage.content_encoding" do
-      require "rails/boost/active_storage/blob/content_encoding"
-      require "rails/boost/active_storage/service/s3_service/content_encoding"
+    if Object.const_defined?(:Aws) && Aws.const_defined?(:S3)
+      initializer "rails-boost.active_storage.content_encoding" do
+        require "rails/boost/active_storage/blob/content_encoding"
+        require "rails/boost/active_storage/service/s3_service/content_encoding"
 
-      ActiveSupport.on_load(:active_storage_blob) do
-        ::ActiveStorage::Blob.instance_eval do
-          prepend Rails::Boost::ActiveStorage::Blob::ContentEncoding
-        end
+        ActiveSupport.on_load(:active_storage_blob) do
+          ::ActiveStorage::Blob.instance_eval do
+            prepend Rails::Boost::ActiveStorage::Blob::ContentEncoding
+          end
 
-        ::ActiveStorage::Service::S3Service.instance_eval do
-          prepend Rails::Boost::ActiveStorage::Service::S3Service::ContentEncoding
+          ::ActiveStorage::Service::S3Service.instance_eval do
+            prepend Rails::Boost::ActiveStorage::Service::S3Service::ContentEncoding
+          end
         end
       end
     end
